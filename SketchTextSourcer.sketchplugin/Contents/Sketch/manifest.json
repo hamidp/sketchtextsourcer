@@ -1,0 +1,23 @@
+{
+  "author" : "Hamid Palo",
+  "commands" : [
+    {
+      "script" : "script.cocoascript",
+      "handler" : "onRun",
+      "shortcut" : "",
+      "name" : "Populate target text from source",
+      "identifier" : "textsourcer"
+    },
+  ],
+  "menu": {
+    "isRoot": true,
+    "items": [
+      "textsourcer",
+    ],
+  },
+  "identifier" : "com.hamidpalo.sketch.textsourcer",
+  "version" : "1.0",
+  "description" : "Automatically populates multiple text targets from a single source.",
+  "authorEmail" : "hamid.palo@gmail.com",
+  "name" : "Text Sourcer"
+}

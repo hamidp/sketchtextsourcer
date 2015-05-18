@@ -1,0 +1,44 @@
+var onRun = function(context) {            
+  var doc = context.document;
+  var page = [doc currentPage];
+  var layers = [page children];
+  var sources = {};
+  var targets = [];
+  
+  for (var i=0; i<[layers count]; i++) {
+    var layer = layers[i];
+    if (![layer isKindOfClass:[MSTextLayer class]]) {
+      // Don't care about non-text layers
+      continue;
+    }
+
+    var name = [layer name];
+    if (name.match(/\[target-([0-9a-zA-Z]+)\]/)) {
+      // Got a target
+      log('Got target: ' + name)
+      targets.push(layer);
+      continue;
+    }
+
+    var sourceMatches = name.match(/\[source-([0-9a-zA-Z]+)\]/);
+    if (!sourceMatches) {
+      continue;
+    }
+
+    var key = sourceMatches[1].toString()
+    var value = layer.stringValue()
+    log('Setting ' + key + '=' + value)
+    sources[key] = value;
+  }
+
+ log('Number of targets = ' + targets.length)
+  for (var i = 0; i < targets.length; i++) {
+    var target = targets[i];
+    var key = [target name].match(/\[target-([0-9]+)\]/)[1].toString();
+    var value = sources[key]
+    log('Populating ' + [target name].toString() + ' with key ' + key + ' value=' + value)
+    target.setStringValue(value);
+    target.objectDidChange();
+    target.adjustFrameToFit();
+  }
+};
